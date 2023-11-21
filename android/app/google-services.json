@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "932127250579",
+    "project_id": "wyoben-21aaa",
+    "storage_bucket": "wyoben-21aaa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932127250579:android:a222978964a622c590d566",
+        "android_client_info": {
+          "package_name": "io.instamobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "932127250579-p55nveng5vee579632tvact9qsbi72rr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvX38OmiHRuyz8xth3oW6DqCiOlhZQxEw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "932127250579-p55nveng5vee579632tvact9qsbi72rr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
