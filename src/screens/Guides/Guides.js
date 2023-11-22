@@ -1,28 +1,10 @@
-import React, {
-  memo,
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-  useState,
-} from "react";
-import {
-  FlatList,
-  Image,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import FastImage from "react-native-fast-image";
-import { useTheme, useTranslations, TouchableIcon } from "../../core/dopebase";
+import React, { memo } from "react";
+import { Image, SafeAreaView, Text, TouchableOpacity } from "react-native";
+import { useTheme } from "../../core/dopebase";
 import dynamicStyles from "./styles";
-import { useCurrentUser } from "../../core/onboarding";
-import { useAuth } from "../../core/onboarding/hooks/useAuth";
-import { colors, icons, images, screenHeight, screenWidth } from "../../assets";
-import Right from "react-native-vector-icons/FontAwesome";
+import { icons, screenHeight, screenWidth } from "../../assets";
 import { Header } from "../../components/Header";
-
-// import home_show_case from '../../assets'
+import WebView from "react-native-webview";
 
 export const Guides = memo((props) => {
   const { navigation } = props;
@@ -71,25 +53,40 @@ export const Guides = memo((props) => {
   );
 
   return (
-    <>
-      <View style={{ backgroundColor: "#F8F8F8" }}>
-        <Header
-          title={"User Guides"}
-          height={(screenHeight * 100) / 1000}
-          width={screenWidth}
-          paddingHorizontal={screenWidth * 0.02}
-          showRightIcon={false}
-          showTitleInCenter={true}
-          leftIconSource={icons.cross}
-          tintColor={"#000000"}
-          onBackPress={() => navigation.goBack()}
-        />
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-        />
-      </View>
-    </>
+    <SafeAreaView style={{ flex: 1 }}>
+      <Header
+        title={"User Guides"}
+        height={(screenHeight * 100) / 1000}
+        width={screenWidth}
+        paddingHorizontal={screenWidth * 0.02}
+        showRightIcon={false}
+        showTitleInCenter={true}
+        leftIconSource={icons.cross}
+        tintColor={"#000000"}
+        backgroundColor={"#ffffff"}
+        onBackPress={() => navigation.goBack()}
+      />
+      <WebView source={{ uri: "https://www.wyoben.com/resources/" }} />
+    </SafeAreaView>
+    // <>
+    //   <View style={{ backgroundColor: "#F8F8F8" }}>
+    //     <Header
+    //       title={"User Guides"}
+    //       height={(screenHeight * 100) / 1000}
+    //       width={screenWidth}
+    //       paddingHorizontal={screenWidth * 0.02}
+    //       showRightIcon={false}
+    //       showTitleInCenter={true}
+    //       leftIconSource={icons.cross}
+    //       tintColor={"#000000"}
+    //       onBackPress={() => navigation.goBack()}
+    //     />
+    //     <FlatList
+    //       data={data}
+    //       keyExtractor={(item) => item.id}
+    //       renderItem={renderItem}
+    //     />
+    //   </View>
+    // </>
   );
 });

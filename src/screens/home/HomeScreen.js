@@ -44,7 +44,7 @@ export const HomeScreen = memo((props) => {
     console.log("Button : ", button);
     console.log("====================================");
     // Log a custom event
-    analytics().logEvent("button_click", {
+    analytics().logEvent(button, {
       button_name: button,
     });
   };
@@ -53,31 +53,37 @@ export const HomeScreen = memo((props) => {
     {
       id: "1",
       title: "Hole Volume Calculator",
+      event: "Hole_Volume_Calculator",
       navigate_to: "HVC",
     },
     {
       id: "2",
       title: "HDD Drilling Fluid Calculator",
+      event: "HDD_Drilling_Fluid_Calculator",
       navigate_to: "DrillingFluidCalculator",
     },
     {
       id: "3",
       title: "Annular Velocity Calculator",
+      event: "Annular_Velocity_Calculator",
       navigate_to: "AnnularVelocityCalculator",
     },
     {
       id: "4",
       title: "HDD Back Reaming/Pump Volume Calculator",
+      event: "HDD_Back_Reaming_Pump_Volume_Calculator",
       navigate_to: "DrillingCalculator",
     },
     {
       id: "5",
       title: "Fluid Weight Up & Volume Increase Calculator",
+      event: "Fluid_Weight_Calculator",
       navigate_to: "FluidWeightUpCalculator",
     },
     {
       id: "6",
       title: "Bottoms up Calculator",
+      event: "Bottoms_up_Calculator",
       navigate_to: "BottomsUpCalculator",
     },
   ];
@@ -128,7 +134,7 @@ export const HomeScreen = memo((props) => {
       onPress={() => {
         item.navigate_to &&
           navigation.navigate("MainStack", { screen: item.navigate_to });
-        onButtonPress(item.title);
+        onButtonPress(item.event);
       }}
       activeOpacity={0.5}
       style={[

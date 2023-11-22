@@ -1,27 +1,16 @@
-import React, {
-  memo,
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-  useState,
-} from "react";
+import React, { memo } from "react";
 import {
   FlatList,
   Image,
   Linking,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import FastImage from "react-native-fast-image";
-import { useTheme, useTranslations, TouchableIcon } from "../../core/dopebase";
-import dynamicStyles from "./styles";
-import { useCurrentUser } from "../../core/onboarding";
-import { useAuth } from "../../core/onboarding/hooks/useAuth";
-import { colors, icons, images, screenHeight, screenWidth } from "../../assets";
-import Right from "react-native-vector-icons/FontAwesome";
+import { colors, icons, screenHeight, screenWidth } from "../../assets";
 import { Header } from "../../components/Header";
+import { useTheme } from "../../core/dopebase";
+import dynamicStyles from "./styles";
 
 // import home_show_case from '../../assets'
 

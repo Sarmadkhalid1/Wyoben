@@ -1,94 +1,149 @@
-import React, { useState } from 'react'
-import { View, Text, TextInput, Button } from 'react-native'
-import { Picker } from '@react-native-picker/picker'
+import React, { useState } from "react";
+import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { Header } from "../../components/Header";
+import { colors, icons, screenHeight, screenWidth } from "../../assets";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-const FluidWeightUpCalculator = () => {
-  const [existingMud, setExistingMud] = useState('')
-  const [existingMudType, setExistingMudType] = useState('lbs gal')
-  const [desiredMud, setDesiredMud] = useState('')
-  const [desiredMudType, setDesiredMudType] = useState('lbs gal')
-  const [results, setResults] = useState(null)
+const FluidWeightUpCalculator = ({ navigation }) => {
+  const [existingMud, setExistingMud] = useState("");
+  const [existingMudType, setExistingMudType] = useState("lbs gal");
+  const [desiredMud, setDesiredMud] = useState("");
+  const [desiredMudType, setDesiredMudType] = useState("lbs gal");
+  const [results, setResults] = useState(null);
 
   const calculateResults = () => {
     if (!existingMud || !desiredMud) {
       // Handle input validation here, if needed
-      return
+      return;
     }
 
-    let baritePerBarrel
-    let volIncreaseInBarrels
+    let baritePerBarrel;
+    let volIncreaseInBarrels;
 
-    if (existingMudType === 'lbs gal') {
-      baritePerBarrel = (1471 * (desiredMud - existingMud)) / (35 - desiredMud)
-      volIncreaseInBarrels = baritePerBarrel / 1471
+    if (existingMudType === "lbs gal") {
+      baritePerBarrel = (1471 * (desiredMud - existingMud)) / (35 - desiredMud);
+      volIncreaseInBarrels = baritePerBarrel / 1471;
     } else {
       baritePerBarrel =
-        (4100 * (desiredMud - existingMud)) / (4100 - existingMud)
-      volIncreaseInBarrels = baritePerBarrel / 4100
+        (4100 * (desiredMud - existingMud)) / (4100 - existingMud);
+      volIncreaseInBarrels = baritePerBarrel / 4100;
     }
 
-    const bariteAddPer100 = baritePerBarrel * 100
-    const volIncPer100 = volIncreaseInBarrels * 100
+    const bariteAddPer100 = baritePerBarrel * 100;
+    const volIncPer100 = volIncreaseInBarrels * 100;
 
     setResults({
       baritePerBarrel:
         baritePerBarrel.toFixed(2) +
-        (existingMudType === 'lbs gal' ? ' lbs/bbl' : ' kgs/bbl'),
-      volIncreaseInBarrels: volIncreaseInBarrels.toFixed(4) + ' bbls/bbl',
+        (existingMudType === "lbs gal" ? " lbs/bbl" : " kgs/bbl"),
+      volIncreaseInBarrels: volIncreaseInBarrels.toFixed(4) + " bbls/bbl",
       bariteAddPer100:
         bariteAddPer100.toFixed(2) +
-        (existingMudType === 'lbs gal' ? ' lbs' : ' kgs'),
-      volIncPer100: volIncPer100.toFixed(2) + ' bbls',
-    })
-  }
+        (existingMudType === "lbs gal" ? " lbs" : " kgs"),
+      volIncPer100: volIncPer100.toFixed(2) + " bbls",
+    });
+  };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text>Weight of the existing drilling mud</Text>
-      <TextInput
-        placeholder="Enter weight"
-        keyboardType="numeric"
-        value={existingMud}
-        onChangeText={text => setExistingMud(text)}
+    <KeyboardAwareScrollView
+      showsVerticalScrollIndicator={false}
+      bounces={false}
+    >
+      <Header
+        title={"Back"}
+        height={(screenHeight * 100) / 1000}
+        width={screenWidth}
+        paddingHorizontal={screenWidth * 0.02}
+        showRightIcon={true}
+        leftIconSource={icons.back}
+        rightIconSource={icons.info}
+        onBackPress={() => navigation.goBack()}
+        tintColor={"#030104"}
       />
-      <Picker
-        selectedValue={existingMudType}
-        onValueChange={itemValue => setExistingMudType(itemValue)}>
-        <Picker.Item label="lbs gal" value="lbs gal" />
-        <Picker.Item label="kgs/m3" value="kgs/m3" />
-      </Picker>
+      <View style={{ padding: 20 }}>
+        <Text
+          style={{
+            fontSize: 24,
+            marginBottom: 20,
+            alignSelf: "center",
+            textAlign: "center",
+          }}
+        >
+          Weight of the existing drilling mud
+        </Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter weight"
+          keyboardType="numeric"
+          value={existingMud}
+          onChangeText={(text) => setExistingMud(text)}
+        />
+        <Picker
+          selectedValue={existingMudType}
+          onValueChange={(itemValue) => setExistingMudType(itemValue)}
+        >
+          <Picker.Item label="lbs gal" value="lbs gal" />
+          <Picker.Item label="kgs/m3" value="kgs/m3" />
+        </Picker>
 
-      <Text>Desired weight of drilling mud</Text>
-      <TextInput
-        placeholder="Enter weight"
-        keyboardType="numeric"
-        value={desiredMud}
-        onChangeText={text => setDesiredMud(text)}
-      />
-      <Picker
-        selectedValue={desiredMudType}
-        onValueChange={itemValue => setDesiredMudType(itemValue)}>
-        <Picker.Item label="lbs gal" value="lbs gal" />
-        <Picker.Item label="kgs/m3" value="kgs/m3" />
-      </Picker>
+        <Text style={styles.labelStyle}>Desired weight of drilling mud</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter weight"
+          keyboardType="numeric"
+          value={desiredMud}
+          onChangeText={(text) => setDesiredMud(text)}
+        />
+        <Picker
+          selectedValue={desiredMudType}
+          onValueChange={(itemValue) => setDesiredMudType(itemValue)}
+        >
+          <Picker.Item label="lbs gal" value="lbs gal" />
+          <Picker.Item label="kgs/m3" value="kgs/m3" />
+        </Picker>
 
-      <Button title="Calculate" onPress={calculateResults} />
+        <Button
+          title="Calculate"
+          onPress={calculateResults}
+          color={colors.primary}
+        />
 
-      {results && (
-        <View>
-          <Text>Results</Text>
+        {results && (
           <View>
-            <Text>Barite Addition per Barrel: {results.baritePerBarrel}</Text>
-            <Text>Fluid Volume Increase: {results.volIncreaseInBarrels}</Text>
-            <Text>Barite Addition per 100bbls: {results.bariteAddPer100}</Text>
-            <Text>
-              Fluid Volume Increase per 100bbls: {results.volIncPer100}
-            </Text>
+            <Text>Results</Text>
+            <View>
+              <Text>Barite Addition per Barrel: {results.baritePerBarrel}</Text>
+              <Text>Fluid Volume Increase: {results.volIncreaseInBarrels}</Text>
+              <Text>
+                Barite Addition per 100bbls: {results.bariteAddPer100}
+              </Text>
+              <Text>
+                Fluid Volume Increase per 100bbls: {results.volIncPer100}
+              </Text>
+            </View>
           </View>
-        </View>
-      )}
-    </View>
-  )
-}
+        )}
+      </View>
+    </KeyboardAwareScrollView>
+  );
+};
 
-export default FluidWeightUpCalculator
+const styles = StyleSheet.create({
+  input: {
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 10,
+    borderRadius: 5,
+    color: "black",
+  },
+  labelStyle: {
+    fontSize: 14,
+    fontWeight: "500",
+    marginBottom: 8,
+    color: "black",
+  },
+});
+
+export default FluidWeightUpCalculator;

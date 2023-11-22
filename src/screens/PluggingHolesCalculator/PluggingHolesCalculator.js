@@ -22,6 +22,7 @@ import { colors, icons, images, screenHeight, screenWidth } from "../../assets";
 import Right from "react-native-vector-icons/FontAwesome";
 import { Header } from "../../components/Header";
 import { useNavigation } from "@react-navigation/core";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // import home_show_case from '../../assets'
 
@@ -79,7 +80,9 @@ const PluggingHolesCalculator = memo((props) => {
         <View style={[styles.hole_diameter, {}]}>
           <TextInput
             style={{
-              padding: 15,
+              paddingLeft: 15,
+              paddingRight: 15,
+              color: "black",
             }}
             keyboardType="numeric"
             placeholder=""
@@ -113,7 +116,9 @@ const PluggingHolesCalculator = memo((props) => {
   );
 
   return (
-    <View style={[styles.container, { backgroundColor: "#F8F8F8" }]}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={[styles.container, { backgroundColor: "#F8F8F8" }]}
+    >
       <Header
         title={"Back"}
         height={(screenHeight * 100) / 1000}
@@ -183,7 +188,7 @@ const PluggingHolesCalculator = memo((props) => {
           Calculate
         </Text>
       </TouchableOpacity>
-    </View>
+    </KeyboardAwareScrollView>
   );
 });
 

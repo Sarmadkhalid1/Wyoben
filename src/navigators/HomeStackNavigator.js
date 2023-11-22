@@ -1,24 +1,19 @@
-import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
 import { useTranslations } from "../core/dopebase";
 import { HomeScreen } from "../screens";
-import HVC from "../screens/HVC/HVC";
-import { Guides } from "../screens/Guides/Guides";
-import { More } from "../screens/More/More";
-import { Results } from "../screens/Results/Results";
-import DrillingFluidCalculator from "../screens/DrillingFluidCalculator/DrillingFluidCalculator";
+import AnnularSpaceCalculator from "../screens/AnnularSpaceCalculator/AnnularSpaceCalculator";
 import AnnularVelocityCalculator from "../screens/AnnularVelocityCalculator/AnnularVelocityCalculator";
-import FluidWeightUpCalculator from "../screens/FluidWeightUpCalculator/FluidWeightUpCalculator";
-import BottomsUpCalculator from "../screens/BottomsUpCalculator/BottomsUpCalculator";
 import AnnularVelocityCalculatorAir from "../screens/AnnularVelocityCalculatorAir/AnnularVelocityCalculatorAir";
 import AnnularVelocityCalculatorFluid from "../screens/AnnularVelocityCalculatorFluid/AnnularVelocityCalculatorFluid";
-import PluggingHolesCalculator from "../screens/PluggingHolesCalculator/PluggingHolesCalculator";
-import AnnularSpaceCalculator from "../screens/AnnularSpaceCalculator/AnnularSpaceCalculator";
+import BottomsUpCalculator from "../screens/BottomsUpCalculator/BottomsUpCalculator";
 import DrillingCalculator from "../screens/DrillingCalculator/DrillingCalculator";
-import AboutUs from "../screens/AboutUs/AboutUs";
-import ContactUs from "../screens/ContactUs/ContactUs";
-import TermsOfUse from "../screens/TermsOfUse/TermsOfUse";
+import DrillingFluidCalculator from "../screens/DrillingFluidCalculator/DrillingFluidCalculator";
+import FluidWeightUpCalculator from "../screens/FluidWeightUpCalculator/FluidWeightUpCalculator";
+import HVC from "../screens/HVC/HVC";
+import PluggingHolesCalculator from "../screens/PluggingHolesCalculator/PluggingHolesCalculator";
 import ProductApplication from "../screens/ProductApplication/ProductApplication";
+import { Results } from "../screens/Results/Results";
 
 const MainStack = createStackNavigator();
 
@@ -47,7 +42,6 @@ const MainStackNavigator = () => {
         component={PluggingHolesCalculator}
         options={{ headerShown: false }}
       />
-
       <MainStack.Screen
         name="AnnularSpaceCalculator"
         component={AnnularSpaceCalculator}
@@ -68,13 +62,11 @@ const MainStackNavigator = () => {
         component={AnnularVelocityCalculatorAir}
         options={{ headerShown: false }}
       />
-
       <MainStack.Screen
         name="AnnularVelocityCalculatorFluid"
         component={AnnularVelocityCalculatorFluid}
         options={{ headerShown: false }}
       />
-
       <MainStack.Screen
         name="DrillingCalculator"
         component={DrillingCalculator}
@@ -91,33 +83,8 @@ const MainStackNavigator = () => {
         options={{ headerShown: false }}
       />
       <MainStack.Screen
-        name="AboutUs"
-        component={AboutUs}
-        options={{ headerShown: false }}
-      />
-      <MainStack.Screen
-        name="ContactUs"
-        component={ContactUs}
-        options={{ headerShown: false }}
-      />
-      <MainStack.Screen
         name="ProductApplication"
         component={ProductApplication}
-        options={{ headerShown: false }}
-      />
-      <MainStack.Screen
-        name="TermsOfUse"
-        component={TermsOfUse}
-        options={{ headerShown: false }}
-      />
-      <MainStack.Screen
-        name="Guides"
-        component={Guides}
-        options={{ headerShown: false }}
-      />
-      <MainStack.Screen
-        name="More"
-        component={More}
         options={{ headerShown: false }}
       />
       <MainStack.Screen

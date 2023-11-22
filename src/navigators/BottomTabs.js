@@ -1,13 +1,14 @@
-import * as React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { HomeScreen } from '../screens'
-import { colors, icons, screenHeight } from '../assets'
-import { Image } from 'react-native'
-import MainStackNavigator from './HomeStackNavigator'
-import { Guides } from '../screens/Guides/Guides'
-import { More } from '../screens/More/More'
+import * as React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { HomeScreen } from "../screens";
+import { colors, icons, screenHeight } from "../assets";
+import { Image } from "react-native";
+import MainStackNavigator from "./HomeStackNavigator";
+import { Guides } from "../screens/Guides/Guides";
+import { More } from "../screens/More/More";
+import MoreStackNavigator from "./MoreStack";
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
 
 export default function BottomTabs(props) {
   return (
@@ -20,26 +21,26 @@ export default function BottomTabs(props) {
           },
           tabBarLabelStyle: {
             fontSize: screenHeight * 0.015,
-            color: '#ffffff',
-            fontWeight: '400',
+            color: "#ffffff",
+            fontWeight: "400",
             marginBottom: screenHeight * 0.015,
           },
           tabBarHideOnKeyboard: true,
-          tabBarActiveTintColor: '#ffffff',
-          tabBarInactiveTintColor: 'grey',
+          tabBarActiveTintColor: "#ffffff",
+          tabBarInactiveTintColor: "grey",
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
-            let iconName
-            if (route.name === 'Home') {
-              iconName = 'calculator'
-            } else if (route.name === 'More') {
-              iconName = 'more'
-            } else if (route.name === 'Guides') {
-              iconName = 'guides'
+            let iconName;
+            if (route.name === "MainStack") {
+              iconName = "calculator";
+            } else if (route.name === "MoreStack") {
+              iconName = "more";
+            } else if (route.name === "Guides") {
+              iconName = "guides";
             }
             return (
               <Image
-                source={focused ? icons[iconName + 'Focused'] : icons[iconName]}
+                source={focused ? icons[iconName + "Focused"] : icons[iconName]}
                 style={{
                   height: focused
                     ? (screenHeight * 57) / 1000
@@ -47,28 +48,29 @@ export default function BottomTabs(props) {
                   width: focused
                     ? (screenHeight * 57) / 1000
                     : (screenHeight * 50) / 1000,
-                  tintColor: '#ffffff',
+                  tintColor: "#ffffff",
                 }}
               />
-            )
+            );
           },
-        })}>
+        })}
+      >
         <Tab.Screen
-          name={'Home'}
+          name={"MainStack"}
           component={MainStackNavigator}
-          options={{ title: 'Home', tabBarShowLabel: false }}
+          options={{ title: "Home", tabBarShowLabel: false }}
         />
         <Tab.Screen
-          name={'Guides'}
+          name={"Guides"}
           component={Guides}
-          options={{ title: 'Guides', tabBarShowLabel: false }}
+          options={{ title: "Guides", tabBarShowLabel: false }}
         />
         <Tab.Screen
-          name={'More'}
-          component={More}
-          options={{ title: 'More', tabBarShowLabel: false }}
+          name={"MoreStack"}
+          component={MoreStackNavigator}
+          options={{ title: "More", tabBarShowLabel: false }}
         />
       </Tab.Navigator>
     </>
-  )
+  );
 }

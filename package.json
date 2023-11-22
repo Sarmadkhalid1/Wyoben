@@ -77,7 +77,7 @@
     "react-native-image-view": "^2.1.9",
     "react-native-indicators": "^0.17.0",
     "react-native-iphone-x-helper": "^1.2.1",
-    "react-native-keyboard-aware-scroll-view": "github:APSL/react-native-keyboard-aware-scroll-view#pull/501/head",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-modalbox": "^2.0.0",
     "react-native-phone-input": "^1.2.0",
     "react-native-popup-menu": "^0.16.1",
