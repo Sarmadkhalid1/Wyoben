@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Header } from "../../components/Header";
 import { colors, icons, screenHeight, screenWidth } from "../../assets";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Button from "../../components/Button";
 
 const DrillingCalculator = ({ navigation }) => {
   const [formation, setFormation] = useState("");
@@ -203,11 +204,7 @@ const DrillingCalculator = ({ navigation }) => {
           <Picker.Item label="15 foot rod length" value="15" />
         </Picker>
 
-        <Button
-          title="Calculate"
-          onPress={calculateResults}
-          color={colors.primary}
-        />
+        <Button title="Calculate" onPress={calculateResults} />
 
         <View>
           <Text style={styles.labelStyle}>Results</Text>

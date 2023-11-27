@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { colors, icons, screenHeight, screenWidth } from "../../assets";
+import Button from "../../components/Button";
 import { Header } from "../../components/Header";
 
 const AnnularVelocityCalculatorFluid = ({ navigation }) => {
@@ -65,16 +66,12 @@ const AnnularVelocityCalculatorFluid = ({ navigation }) => {
           onChangeText={setDrillPipeDiameter}
           keyboardType="numeric"
         />
-        <Button
-          title="Calculate"
-          onPress={handleSubmit}
-          color={colors.primary}
-        />
+        <Button title="Calculate" onPress={handleSubmit} />
 
         {result !== null && (
           <View style={styles.results}>
             <Text style={styles.resultHeader}>Results:</Text>
-            <Text>{result.toFixed(1)} Ft / Min</Text>
+            <Text>{Math.round(result)} Ft / Min</Text>
 
             {result < 50 && (
               <View style={styles.alert}>
@@ -108,7 +105,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 20,
     color: "black",
   },
   results: {

@@ -1,37 +1,32 @@
-import React, {
-  memo,
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-  useState,
-} from "react";
+import analytics from "@react-native-firebase/analytics";
+import React, { memo, useContext, useState } from "react";
 import {
   FlatList,
   Image,
+  StatusBar,
   Text,
   TouchableOpacity,
   View,
-  StatusBar,
 } from "react-native";
 import FastImage from "react-native-fast-image";
+import { colors, icons, images, screenHeight } from "../../assets";
 import {
+  DopebaseContext,
   useTheme,
   useTranslations,
-  TouchableIcon,
-  DopebaseContext,
 } from "../../core/dopebase";
-import dynamicStyles from "./styles";
 import { useCurrentUser } from "../../core/onboarding";
 import { useAuth } from "../../core/onboarding/hooks/useAuth";
-import { colors, icons, images, screenHeight, screenWidth } from "../../assets";
-import Right from "react-native-vector-icons/FontAwesome";
-import { Header } from "../../components/Header";
-import analytics from "@react-native-firebase/analytics";
+import dynamicStyles from "./styles";
 // import home_show_case from '../../assets'
 
 export const HomeScreen = memo((props) => {
   const { navigation } = props;
   const currentUser = useCurrentUser();
+  const context = useContext(DopebaseContext);
+  console.log("====================================");
+  console.log("ContextUnit : ", context?.unit);
+  console.log("====================================");
   const authManager = useAuth();
 
   const { localized } = useTranslations();
@@ -175,7 +170,10 @@ export const HomeScreen = memo((props) => {
           ]}
         >
           <TouchableOpacity
-            onPress={() => setFilterType("Metric")}
+            onPress={() => {
+              setFilterType("Metric");
+              context.addUnit("Metric");
+            }}
             style={[
               styles.sub_view1,
               {
@@ -196,7 +194,10 @@ export const HomeScreen = memo((props) => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => setFilterType("Imperial")}
+            onPress={() => {
+              setFilterType("Imperial");
+              context.addUnit("Imperial");
+            }}
             style={[
               styles.sub_view2,
               {

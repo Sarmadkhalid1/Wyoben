@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useColorScheme } from 'react-native'
 import DNDefaultTheme from './default'
 
@@ -9,15 +9,24 @@ export const DopebaseContext = React.createContext()
 const defaultProps = {
   children: null,
   theme: {},
+  unit: '',
+  addUnit: unit => {},
 }
 
 export function DopebaseProvider(props = defaultProps) {
   const { theme, children } = props
   const colorScheme = useColorScheme()
+  const [unit, setUnit] = useState('Metric')
   const overridenTheme = { ...DNDefaultTheme, ...theme }
+
+  function addUnit(unit) {
+    setUnit(unit)
+  }
   const context = {
     theme: overridenTheme,
     appearance: colorScheme,
+    unit: unit,
+    addUnit: addUnit,
   }
   return (
     <DopebaseContext.Provider value={context}>

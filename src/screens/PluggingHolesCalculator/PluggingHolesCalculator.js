@@ -1,123 +1,62 @@
-import React, {
-  memo,
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-  useState,
-} from "react";
-import {
-  FlatList,
-  Image,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import FastImage from "react-native-fast-image";
-import { useTheme, useTranslations, TouchableIcon } from "../../core/dopebase";
-import dynamicStyles from "./styles";
-import { useCurrentUser } from "../../core/onboarding";
-import { useAuth } from "../../core/onboarding/hooks/useAuth";
-import { colors, icons, images, screenHeight, screenWidth } from "../../assets";
-import Right from "react-native-vector-icons/FontAwesome";
-import { Header } from "../../components/Header";
-import { useNavigation } from "@react-navigation/core";
+import React, { useContext, useState } from "react";
+import { View, Text, TextInput, StyleSheet } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Header } from "../../components/Header";
+import { colors, icons, screenHeight, screenWidth } from "../../assets";
+import { DopebaseContext } from "../../core/dopebase";
+import Button from "../../components/Button";
 
-// import home_show_case from '../../assets'
-
-const PluggingHolesCalculator = memo((props) => {
-  const navigation = useNavigation();
-
-  const [holeDiameter, setHoleDiameter] = useState();
-  const [depthofHole, setDepthofHole] = useState();
-
-  const currentUser = useCurrentUser();
-  const authManager = useAuth();
-
-  const { localized } = useTranslations();
-  const { theme, appearance } = useTheme();
-  const styles = dynamicStyles(theme, appearance);
-
-  const renderItem = (
-    filter1,
-    filter2,
-    subs_filter,
-    setFilterValue,
-    filterValue,
-    marginTop
-  ) => (
-    <>
-      <View
-        style={{
-          flexDirection: "row",
-          marginTop: marginTop,
-          paddingBottom: screenHeight * 0.005,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: (screenHeight * 18) / 1000,
-            color: "#A29E9E",
-            fontWeight: "500",
-            width: screenWidth * 0.7,
-          }}
-        >
-          {filter1}
-        </Text>
-        <Text
-          style={{
-            fontSize: (screenHeight * 18) / 1000,
-            color: "#A29E9E",
-            fontWeight: "500",
-            marginRight: screenWidth * 0.05,
-          }}
-        >
-          {filter2}
-        </Text>
-      </View>
-      <View style={[styles.filter, { flexDirection: "row" }]}>
-        <View style={[styles.hole_diameter, {}]}>
-          <TextInput
-            style={{
-              paddingLeft: 15,
-              paddingRight: 15,
-              color: "black",
-            }}
-            keyboardType="numeric"
-            placeholder=""
-            onChangeText={(text) => setFilterValue(text) && console.log(text)} // Handle text changes
-            value={filterValue} // Set the input value
-          />
-        </View>
-        <View
-          style={[
-            styles.metric1,
-            {
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              alignContent: "center",
-            },
-          ]}
-        >
-          <Text>{subs_filter}</Text>
-          <Image
-            source={icons["right-arrow"]}
-            style={{
-              height: screenHeight * 0.015,
-              width: screenWidth * 0.015,
-              marginLeft: screenWidth * 0.01,
-            }}
-          ></Image>
-        </View>
-      </View>
-    </>
+const PluggingHolesCalculator = ({ navigation }) => {
+  const context = useContext(DopebaseContext);
+  console.log("Context Unit : ", context?.unit);
+  const [diameter, setDiameter] = useState("");
+  const [diameterType, setDiameterType] = useState(
+    context?.unit === "Imperial" ? "inch" : "centimeter"
   );
+  const [depth, setDepth] = useState("");
+  const [depthType, setDepthType] = useState(
+    context?.unit === "Imperial" ? "feet" : "meters"
+  );
+  const [results, setResults] = useState(null);
+
+  const handleSubmit = () => {
+    const holeDiameter = parseFloat(diameter);
+    const holeDepth = parseFloat(depth);
+
+    if (isNaN(holeDiameter) || isNaN(holeDepth)) {
+      // Handle invalid input
+      return;
+    }
+
+    let holeVolume;
+    let holeVolumeGal;
+    let holeVolumeCubicFt;
+    let holeVolumeCubicMeter;
+
+    if (diameterType === "centimeter") {
+      holeVolume = ((holeDiameter * holeDiameter) / 12.73) * holeDepth;
+      holeVolumeGal = holeVolume * 0.264172;
+      holeVolumeCubicMeter = holeVolume / 1000;
+    } else {
+      holeVolume = ((holeDiameter * holeDiameter) / 24.5) * holeDepth;
+      holeVolumeGal = holeVolume;
+      holeVolumeCubicFt = holeVolume * 0.1337;
+    }
+
+    setResults({
+      holeVolume: holeVolume, // Add this line
+      holeVolumeCubicMeter: Math.round(holeVolumeCubicMeter * 100) / 100,
+      holeVolumeGal: Math.round(holeVolumeGal * 100) / 100,
+      holeVolumeCubicFt: Math.round(holeVolumeCubicFt * 100) / 100,
+    });
+  };
 
   return (
     <KeyboardAwareScrollView
-      contentContainerStyle={[styles.container, { backgroundColor: "#F8F8F8" }]}
+      showsVerticalScrollIndicator={false}
+      bounces={false}
+      style={styles.container}
     >
       <Header
         title={"Back"}
@@ -127,69 +66,151 @@ const PluggingHolesCalculator = memo((props) => {
         showRightIcon={true}
         leftIconSource={icons.back}
         rightIconSource={icons.info}
-        onBackPress={() => props.navigation.goBack()}
+        onBackPress={() => navigation.goBack()}
         tintColor={"#030104"}
       />
-
-      <View
-        style={[
-          styles.top_title,
-          { alignItems: "center", paddingVertical: screenHeight * 0.017 },
-        ]}
-      >
-        <View style={[styles.sub_view1, { alignItems: "center" }]}>
-          <Text
-            style={{
-              color: "#666666",
-              fontSize: (screenHeight * 21) / 1000,
-              fontWeight: "500",
-            }}
-          >
-            PLUGGIN HOLES OR CASING
-          </Text>
-        </View>
-      </View>
-      {renderItem(
-        "Hole Diameter",
-        "Metric",
-        "Inches",
-        setHoleDiameter,
-        holeDiameter,
-        screenHeight * 0.08
-      )}
-      {renderItem(
-        "Depth of Hole",
-        "Metric",
-        "Feet",
-        setDepthofHole,
-        depthofHole,
-        screenHeight * 0.045
-      )}
-
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Results")}
-        style={[
-          styles.top_title,
-          {
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: screenHeight * 0.05,
-            backgroundColor: colors.primary,
-          },
-        ]}
-      >
-        <Text
-          style={{
-            color: "#ffffff",
-            fontSize: (screenHeight * 26) / 1000,
-            fontWeight: "500",
-          }}
+      <View style={styles.contentContainer}>
+        <Text style={styles.header}>Plugging Holes Calculator</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Hole Diameter"
+          value={diameter}
+          onChangeText={setDiameter}
+          keyboardType="numeric"
+        />
+        <Picker
+          style={styles.input}
+          selectedValue={diameterType}
+          onValueChange={(itemValue) => setDiameterType(itemValue)}
         >
-          Calculate
-        </Text>
-      </TouchableOpacity>
+          <Picker.Item label="Inches" value="inch" />
+          <Picker.Item label="Centimeters" value="centimeter" />
+        </Picker>
+        <TextInput
+          style={styles.input}
+          placeholder="Depth of Hole"
+          value={depth}
+          onChangeText={setDepth}
+          keyboardType="numeric"
+        />
+        <Picker
+          style={styles.input}
+          selectedValue={depthType}
+          onValueChange={(itemValue) => setDepthType(itemValue)}
+        >
+          <Picker.Item label="Feet" value="feet" />
+          <Picker.Item label="Meters" value="meters" />
+        </Picker>
+        <Button title="Calculate" onPress={handleSubmit} />
+
+        {results && (
+          <View style={styles.results}>
+            <Text style={styles.resultHeader}>Results:</Text>
+            {diameterType === "centimeter" ? (
+              <>
+                <Text>
+                  Volume in Cubic Meters:{" "}
+                  {Math.round(results.holeVolumeCubicMeter * 100) / 100} cubic
+                  meters
+                </Text>
+                <Text>
+                  Liters: {Math.round(results.holeVolume * 100) / 100} liters
+                </Text>
+              </>
+            ) : (
+              <>
+                <Text>
+                  Volume in Cubic Feet:{" "}
+                  {Math.round(results.holeVolumeCubicFt * 100) / 100} cubic feet
+                </Text>
+                <Text>
+                  Gallons: {Math.round(results.holeVolumeGal * 100) / 100}{" "}
+                  gallons
+                </Text>
+              </>
+            )}
+
+            <Text>Approximate number of bags necessary for the hole:</Text>
+
+            <Text>Dry Applications:</Text>
+            <Text>
+              Enviroplug Medium:{" "}
+              {results.holeVolumeGal && Math.round(results.holeVolumeGal / 5.5)}{" "}
+              bags
+            </Text>
+            <Text>
+              Enviroplug Coarse:{" "}
+              {results.holeVolumeGal && Math.round(results.holeVolumeGal / 5.5)}{" "}
+              bags
+            </Text>
+            <Text>
+              Enviroplug #8 (Recommended for Dry Holes Only):{" "}
+              {results.holeVolumeGal && Math.round(results.holeVolumeGal / 5.5)}{" "}
+              bags
+            </Text>
+
+            <Text>Slurry Applications, See individual product sheets:</Text>
+            <Text>Enviroplug #16 &amp; 20 @ 17% Solids: N/A</Text>
+            <Text>
+              Enviroplug Grout @ 30% solids:{" "}
+              {results.holeVolumeGal && Math.round(results.holeVolumeGal / 17)}{" "}
+              bags
+            </Text>
+            <Text>
+              Grout-Well "DF" @ 20% solids:{" "}
+              {results.holeVolumeGal && Math.round(results.holeVolumeGal / 27)}{" "}
+              bags
+            </Text>
+            <Text>
+              Grout-Well @ 17% solids:{" "}
+              {results.holeVolumeGal && Math.round(results.holeVolumeGal / 31)}{" "}
+              bags
+            </Text>
+            <Text>
+              TD-16 @ 17% solids:{" "}
+              {results.holeVolumeGal && Math.round(results.holeVolumeGal / 31)}{" "}
+              bags
+            </Text>
+            <Text>Therm-X Grout @ .93*: N/A</Text>
+            <Text>Therm-X Grout @ 1.05*: N/A</Text>
+            <Text>Therm-X Grout Plus*: N/A</Text>
+          </View>
+        )}
+      </View>
     </KeyboardAwareScrollView>
   );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // padding: 20,
+  },
+  contentContainer: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  header: {
+    fontSize: 24,
+    marginBottom: 20,
+    alignSelf: "center",
+    textAlign: "center",
+  },
+  input: {
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 10,
+    borderRadius: 20,
+  },
+  results: {
+    marginTop: 20,
+  },
+  resultHeader: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
 });
 
 export default PluggingHolesCalculator;

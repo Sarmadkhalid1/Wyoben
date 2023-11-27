@@ -123,10 +123,20 @@ const HVC = memo((props) => {
       <View style={[styles.container, { backgroundColor: "#F8F8F8" }]}>
         <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
         <FastImage style={[styles.image]} source={images.home_show_case} />
+        <Header
+          title={"Back"}
+          height={(screenHeight * 100) / 1000}
+          width={screenWidth}
+          paddingHorizontal={screenWidth * 0.02}
+          showRightIcon={true}
+          leftIconSource={icons.back}
+          rightIconSource={icons.info}
+          onBackPress={() => navigation.goBack()}
+          tintColor={"#030104"}
+        />
+        {/* <Text style={styles.screen_title}>{`calculate with`}</Text> */}
 
-        <Text style={styles.screen_title}>{`calculate with`}</Text>
-
-        <View
+        {/* <View
           style={[
             styles.calculate_filter,
             {
@@ -178,7 +188,7 @@ const HVC = memo((props) => {
               Imperial
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <FlatList
           style={{ marginTop: (screenHeight * 100) / 1000 }}

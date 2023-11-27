@@ -1,18 +1,26 @@
+import React, { useContext, useState } from "react";
+import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import React, { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { icons, screenHeight, screenWidth } from "../../assets";
 import { Header } from "../../components/Header";
-import { colors } from "../../assets";
+import { colors, icons, screenHeight, screenWidth } from "../../assets";
+import { DopebaseContext } from "../../core/dopebase";
+import Button from "../../components/Button";
 
 const AnnularSpaceCalculator = ({ navigation }) => {
+  const context = useContext(DopebaseContext);
   const [diameter, setDiameter] = useState("");
-  const [diameterType, setDiameterType] = useState("inch");
+  const [diameterType, setDiameterType] = useState(
+    context?.unit === "Imperial" ? "inch" : "centimeter"
+  );
   const [casingDiameter, setCasingDiameter] = useState("");
-  const [casingDiameterType, setCasingDiameterType] = useState("inch");
+  const [casingDiameterType, setCasingDiameterType] = useState(
+    context?.unit === "Imperial" ? "inch" : "centimeter"
+  );
   const [depth, setDepth] = useState("");
-  const [depthType, setDepthType] = useState("feet");
+  const [depthType, setDepthType] = useState(
+    context?.unit === "Imperial" ? "feet" : "meters"
+  );
   const [results, setResults] = useState(null);
 
   const handleSubmit = () => {
@@ -56,7 +64,11 @@ const AnnularSpaceCalculator = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+    <KeyboardAwareScrollView
+      showsVerticalScrollIndicator={false}
+      bounces={false}
+      style={styles.container}
+    >
       <Header
         title={"Back"}
         height={(screenHeight * 100) / 1000}
@@ -68,7 +80,7 @@ const AnnularSpaceCalculator = ({ navigation }) => {
         onBackPress={() => navigation.goBack()}
         tintColor={"#030104"}
       />
-      <View style={styles.container}>
+      <View style={styles.contentContainer}>
         <Text style={styles.header}>Annular Space Calculator</Text>
         <TextInput
           style={styles.input}
@@ -115,11 +127,7 @@ const AnnularSpaceCalculator = ({ navigation }) => {
           <Picker.Item label="Feet" value="feet" />
           <Picker.Item label="Meters" value="meters" />
         </Picker>
-        <Button
-          title="Calculate"
-          onPress={handleSubmit}
-          color={colors.primary}
-        />
+        <Button title="Calculate" onPress={handleSubmit} />
 
         {results && (
           <View style={styles.results}>
@@ -128,18 +136,18 @@ const AnnularSpaceCalculator = ({ navigation }) => {
               <>
                 <Text>
                   Volume in Cubic Meters:{" "}
-                  {results.annularVolumeCubicMeter.toFixed(2)} cubic meters
+                  {Math.round(results.annularVolumeCubicMeter)} cubic meters
                 </Text>
-                <Text>Liters: {results.annularVolume.toFixed(2)} liters</Text>
+                <Text>Liters: {Math.round(results.annularVolume)} liters</Text>
               </>
             ) : (
               <>
                 <Text>
                   Volume in Cubic Feet:{" "}
-                  {results.annularVolumeCubicFt.toFixed(2)} cubic feet
+                  {Math.round(results.annularVolumeCubicFt)} cubic feet
                 </Text>
                 <Text>
-                  Gallons: {results.annularVolumeGallons.toFixed(2)} gallons
+                  Gallons: {Math.round(results.annularVolumeGallons)} gallons
                 </Text>
               </>
             )}
@@ -149,14 +157,14 @@ const AnnularSpaceCalculator = ({ navigation }) => {
             <Text>
               Enviroplug Medium:{" "}
               {results.annularVolumeGallons &&
-                (results.annularVolumeGallons / 5.5).toFixed(2)}{" "}
+                Math.round(results.annularVolumeGallons / 5.5)}{" "}
               bags
             </Text>
             <Text>Enviroplug Coarse: N/A</Text>
             <Text>
               Enviroplug #8 (Recommended for Dry Holes Only):{" "}
               {results.annularVolumeGallons &&
-                (results.annularVolumeGallons / 5.5).toFixed(2)}{" "}
+                Math.round(results.annularVolumeGallons / 5.5)}{" "}
               bags
             </Text>
 
@@ -164,43 +172,43 @@ const AnnularSpaceCalculator = ({ navigation }) => {
             <Text>
               Enviroplug #16 & 20 @ 17% Solids:{" "}
               {results.annularVolumeGallons &&
-                (results.annularVolumeGallons / 31).toFixed(2)}{" "}
+                Math.round(results.annularVolumeGallons / 31)}{" "}
               bags
             </Text>
             <Text>
               Enviroplug Grout @ 30% solids:{" "}
               {results.annularVolumeGallons &&
-                (results.annularVolumeGallons / 17).toFixed(2)}{" "}
+                Math.round(results.annularVolumeGallons / 17)}{" "}
               bags
             </Text>
             <Text>
               Grout-Well "DF" @ 20% solids:{" "}
               {results.annularVolumeGallons &&
-                (results.annularVolumeGallons / 27).toFixed(2)}{" "}
+                Math.round(results.annularVolumeGallons / 27)}{" "}
               bags
             </Text>
             <Text>
               Grout-Well @ 17% solids:{" "}
               {results.annularVolumeGallons &&
-                (results.annularVolumeGallons / 31).toFixed(2)}{" "}
+                Math.round(results.annularVolumeGallons / 31)}{" "}
               bags
             </Text>
             <Text>
               TD-16 @ 17% solids:{" "}
               {results.annularVolumeGallons &&
-                (results.annularVolumeGallons / 31).toFixed(2)}{" "}
+                Math.round(results.annularVolumeGallons / 31)}{" "}
               bags
             </Text>
             <Text>
               Therm-Ex Grout @ .93*:{" "}
               {results.annularVolumeGallons &&
-                (results.annularVolumeGallons / 29).toFixed(2)}{" "}
+                Math.round(results.annularVolumeGallons / 29)}{" "}
               bags
             </Text>
             <Text>
               Therm-Ex Grout @ 1.05*:{" "}
               {results.annularVolumeGallons &&
-                (results.annularVolumeGallons / 36).toFixed(2)}{" "}
+                Math.round(results.annularVolumeGallons / 36)}{" "}
               bags
             </Text>
           </View>
@@ -213,19 +221,24 @@ const AnnularSpaceCalculator = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    // padding: 20,
+  },
+  contentContainer: {
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   header: {
     fontSize: 24,
     marginBottom: 20,
+    alignSelf: "center",
+    textAlign: "center",
   },
   input: {
     marginBottom: 10,
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 10,
-    borderRadius: 5,
-    color: "black",
+    borderRadius: 20,
   },
   results: {
     marginTop: 20,

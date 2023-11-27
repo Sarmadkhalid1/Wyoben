@@ -1,19 +1,30 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import React, { useContext, useState } from "react";
+import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Header } from "../../components/Header";
 import { colors, icons, screenHeight, screenWidth } from "../../assets";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { DopebaseContext } from "../../core/dopebase";
+import Button from "../../components/Button";
 
 const BottomsUpCalculator = ({ navigation }) => {
+  const context = useContext(DopebaseContext);
   const [holeDiameter, setHoleDiameter] = useState("");
-  const [holeDiameterType, setHoleDiameterType] = useState("inch");
+  const [holeDiameterType, setHoleDiameterType] = useState(
+    context?.unit === "Imperial" ? "inch" : "millimeter"
+  );
   const [pipeDiameter, setPipeDiameter] = useState("");
-  const [pipeDiameterType, setPipeDiameterType] = useState("inch");
+  const [pipeDiameterType, setPipeDiameterType] = useState(
+    context?.unit === "Imperial" ? "inch" : "millimeter"
+  );
   const [depthLength, setDepthLength] = useState("");
-  const [depthLengthType, setDepthLengthType] = useState("feet");
+  const [depthLengthType, setDepthLengthType] = useState(
+    context?.unit === "Imperial" ? "feet" : "meters"
+  );
   const [pumpOutput, setPumpOutput] = useState("");
-  const [pumpOutputType, setPumpOutputType] = useState("gallons");
+  const [pumpOutputType, setPumpOutputType] = useState(
+    context?.unit === "Imperial" ? "gallons" : "liters"
+  );
   const [results, setResults] = useState(null);
 
   const calculateResults = () => {
@@ -129,15 +140,11 @@ const BottomsUpCalculator = ({ navigation }) => {
           <Picker.Item label="Liters per minute" value="liters" />
         </Picker>
 
-        <Button
-          title="Calculate"
-          onPress={calculateResults}
-          color={colors.primary}
-        />
+        <Button title="Calculate" onPress={calculateResults} />
 
         {results && (
           <View>
-            <Text>Results</Text>
+            <Text style={styles.resultStyle}>Results</Text>
             <Text>Bottoms Up Time: {results} Minutes</Text>
           </View>
         )}
@@ -151,7 +158,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 20,
     color: "black",
   },
   labelStyle: {
@@ -159,6 +166,11 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginBottom: 8,
     color: "black",
+  },
+  resultStyle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
 });
 

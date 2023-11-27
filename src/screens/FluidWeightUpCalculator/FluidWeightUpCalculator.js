@@ -1,15 +1,22 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import React, { useContext, useState } from "react";
+import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Header } from "../../components/Header";
 import { colors, icons, screenHeight, screenWidth } from "../../assets";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { DopebaseContext } from "../../core/dopebase";
+import Button from "../../components/Button";
 
 const FluidWeightUpCalculator = ({ navigation }) => {
+  const context = useContext(DopebaseContext);
   const [existingMud, setExistingMud] = useState("");
-  const [existingMudType, setExistingMudType] = useState("lbs gal");
+  const [existingMudType, setExistingMudType] = useState(
+    context?.unit === "Imperial" ? "lbs gal" : "kgs/m3"
+  );
   const [desiredMud, setDesiredMud] = useState("");
-  const [desiredMudType, setDesiredMudType] = useState("lbs gal");
+  const [desiredMudType, setDesiredMudType] = useState(
+    context?.unit === "Imperial" ? "lbs gal" : "kgs/m3"
+  );
   const [results, setResults] = useState(null);
 
   const calculateResults = () => {
@@ -35,13 +42,13 @@ const FluidWeightUpCalculator = ({ navigation }) => {
 
     setResults({
       baritePerBarrel:
-        baritePerBarrel.toFixed(2) +
+        Math.round(baritePerBarrel) +
         (existingMudType === "lbs gal" ? " lbs/bbl" : " kgs/bbl"),
-      volIncreaseInBarrels: volIncreaseInBarrels.toFixed(4) + " bbls/bbl",
+      volIncreaseInBarrels: Math.round(volIncreaseInBarrels) + " bbls/bbl",
       bariteAddPer100:
-        bariteAddPer100.toFixed(2) +
+        Math.round(bariteAddPer100) +
         (existingMudType === "lbs gal" ? " lbs" : " kgs"),
-      volIncPer100: volIncPer100.toFixed(2) + " bbls",
+      volIncPer100: Math.round(volIncPer100) + " bbls",
     });
   };
 
@@ -103,15 +110,11 @@ const FluidWeightUpCalculator = ({ navigation }) => {
           <Picker.Item label="kgs/m3" value="kgs/m3" />
         </Picker>
 
-        <Button
-          title="Calculate"
-          onPress={calculateResults}
-          color={colors.primary}
-        />
+        <Button title="Calculate" onPress={calculateResults} />
 
         {results && (
           <View>
-            <Text>Results</Text>
+            <Text style={styles.resultStyle}>Results</Text>
             <View>
               <Text>Barite Addition per Barrel: {results.baritePerBarrel}</Text>
               <Text>Fluid Volume Increase: {results.volIncreaseInBarrels}</Text>
@@ -135,7 +138,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 20,
     color: "black",
   },
   labelStyle: {
@@ -143,6 +146,11 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginBottom: 8,
     color: "black",
+  },
+  resultStyle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
 });
 
