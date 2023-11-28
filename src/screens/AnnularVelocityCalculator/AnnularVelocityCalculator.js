@@ -50,47 +50,6 @@ const AnnularVelocityCalculator = memo((props) => {
     },
   ];
 
-  // useLayoutEffect(() => {
-  //   const colorSet = theme.colors[appearance]
-
-  //   navigation.setOptions({
-  //     headerTitle: localized('Home'),
-  //     headerRight: () => (
-  //       <View>
-  //         <TouchableIcon
-  //           imageStyle={{ tintColor: colorSet.primaryForeground }}
-  //           iconSource={theme.icons.logout}
-  //           onPress={onLogout}
-  //         />
-  //       </View>
-  //     ),
-  //     headerStyle: {
-  //       backgroundColor: colorSet.primaryBackground,
-  //       borderBottomColor: colorSet.hairline,
-  //     },
-  //     headerTintColor: colorSet.primaryText,
-  //   })
-  // }, [])
-
-  // useEffect(() => {
-  //   if (!currentUser?.id) {
-  //     return
-  //   }
-  // }, [currentUser?.id])
-
-  // const onLogout = useCallback(() => {
-  //   console.log('logout pressed')
-  //   authManager?.logout(currentUser)
-  //   navigation.reset({
-  //     index: 0,
-  //     routes: [
-  //       {
-  //         name: 'LoadScreen',
-  //       },
-  //     ],
-  //   })
-  // }, [currentUser])
-
   const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => item.navigate_to && navigation.navigate(item.navigate_to)}

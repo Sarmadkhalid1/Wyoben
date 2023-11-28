@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { icons, screenHeight, screenWidth } from "../../assets";
 import { Header } from "../../components/Header";
@@ -26,7 +26,21 @@ const AnnularVelocityCalculatorAir = ({ navigation }) => {
       cubic * (183.4 / (Math.pow(diameter, 2) - Math.pow(drill, 2)));
 
     setResult(calculatedResult);
+    // navigation.navigate("Results", {
+    //   results: result,
+    //   type: "AnnularVelocityCalculatorAir",
+    // });
   };
+
+  useEffect(() => {
+    // This effect will run after the component renders
+    if (result) {
+      navigation.navigate("Results", {
+        results: result,
+        type: "AnnularVelocityCalculatorAir",
+      });
+    }
+  }, [result, navigation]);
 
   return (
     <KeyboardAwareScrollView
@@ -69,7 +83,7 @@ const AnnularVelocityCalculatorAir = ({ navigation }) => {
         />
         <Button title="Calculate" onPress={handleSubmit} />
 
-        {result !== null && (
+        {/* {result !== null && (
           <View style={styles.results}>
             <Text style={styles.resultHeader}>Results:</Text>
             <Text>{Math.round(result)} Ft / Min</Text>
@@ -86,7 +100,7 @@ const AnnularVelocityCalculatorAir = ({ navigation }) => {
               </View>
             )}
           </View>
-        )}
+        )} */}
       </View>
     </KeyboardAwareScrollView>
   );

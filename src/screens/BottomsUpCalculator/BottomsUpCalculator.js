@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Header } from "../../components/Header";
@@ -48,7 +48,22 @@ const BottomsUpCalculator = ({ navigation }) => {
     }
 
     setResults(result.toFixed(2));
+
+    // navigation.navigate("Results", {
+    //   results: results,
+    //   type: "BottomsUpCalculator",
+    // });
   };
+
+  useEffect(() => {
+    // This effect will run after the component renders
+    if (results) {
+      navigation.navigate("Results", {
+        results: results,
+        type: "BottomsUpCalculator",
+      });
+    }
+  }, [results, navigation]);
 
   return (
     <KeyboardAwareScrollView
@@ -142,12 +157,12 @@ const BottomsUpCalculator = ({ navigation }) => {
 
         <Button title="Calculate" onPress={calculateResults} />
 
-        {results && (
+        {/* {results && (
           <View>
             <Text style={styles.resultStyle}>Results</Text>
             <Text>Bottoms Up Time: {results} Minutes</Text>
           </View>
-        )}
+        )} */}
       </View>
     </KeyboardAwareScrollView>
   );

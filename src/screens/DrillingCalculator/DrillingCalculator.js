@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Header } from "../../components/Header";
@@ -10,7 +10,7 @@ const DrillingCalculator = ({ navigation }) => {
   const [formation, setFormation] = useState("");
   const [inch, setInch] = useState("");
   const [rod, setRod] = useState("");
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState(null);
 
   const pumpCalcs = [
     {
@@ -141,7 +141,21 @@ const DrillingCalculator = ({ navigation }) => {
     }
 
     setResults(newResults);
+    // navigation.navigate("Results", {
+    //   results: results,
+    //   type: "DrillingCalculator",
+    // });
   };
+
+  useEffect(() => {
+    // This effect will run after the component renders
+    if (results) {
+      navigation.navigate("Results", {
+        results: results,
+        type: "DrillingCalculator",
+      });
+    }
+  }, [results, navigation]);
 
   return (
     <KeyboardAwareScrollView
@@ -206,7 +220,7 @@ const DrillingCalculator = ({ navigation }) => {
 
         <Button title="Calculate" onPress={calculateResults} />
 
-        <View>
+        {/* <View>
           <Text style={styles.labelStyle}>Results</Text>
           {results.map((result, index) => (
             <View key={index}>
@@ -214,7 +228,7 @@ const DrillingCalculator = ({ navigation }) => {
               <Text>{result.result}</Text>
             </View>
           ))}
-        </View>
+        </View> */}
       </View>
     </KeyboardAwareScrollView>
   );

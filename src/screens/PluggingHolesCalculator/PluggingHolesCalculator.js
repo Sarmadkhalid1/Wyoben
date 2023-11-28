@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -50,7 +50,21 @@ const PluggingHolesCalculator = ({ navigation }) => {
       holeVolumeGal: Math.round(holeVolumeGal * 100) / 100,
       holeVolumeCubicFt: Math.round(holeVolumeCubicFt * 100) / 100,
     });
+    // navigation.navigate("Results", {
+    //   results: results,
+    //   type: "PluggingHolesCalculator",
+    // });
   };
+
+  useEffect(() => {
+    // This effect will run after the component renders
+    if (results) {
+      navigation.navigate("Results", {
+        results: results,
+        type: "PluggingHolesCalculator",
+      });
+    }
+  }, [results, navigation]);
 
   return (
     <KeyboardAwareScrollView
@@ -103,7 +117,7 @@ const PluggingHolesCalculator = ({ navigation }) => {
         </Picker>
         <Button title="Calculate" onPress={handleSubmit} />
 
-        {results && (
+        {/* {results && (
           <View style={styles.results}>
             <Text style={styles.resultHeader}>Results:</Text>
             {diameterType === "centimeter" ? (
@@ -175,7 +189,7 @@ const PluggingHolesCalculator = ({ navigation }) => {
             <Text>Therm-X Grout @ 1.05*: N/A</Text>
             <Text>Therm-X Grout Plus*: N/A</Text>
           </View>
-        )}
+        )} */}
       </View>
     </KeyboardAwareScrollView>
   );

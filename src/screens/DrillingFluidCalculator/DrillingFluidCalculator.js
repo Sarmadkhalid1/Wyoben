@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Header } from "../../components/Header";
@@ -219,7 +219,21 @@ const DrillingFluidCalculator = ({ navigation }) => {
       recPumpVol: Math.round(recPumpVol),
       makeupResults,
     });
+    // navigation.navigate("Results", {
+    //   results: results,
+    //   type: "DrillingFluidCalculator",
+    // });
   };
+
+  useEffect(() => {
+    // This effect will run after the component renders
+    if (results) {
+      navigation.navigate("Results", {
+        results: results,
+        type: "DrillingFluidCalculator",
+      });
+    }
+  }, [results, navigation]);
 
   return (
     <KeyboardAwareScrollView
@@ -281,7 +295,7 @@ const DrillingFluidCalculator = ({ navigation }) => {
         </Picker>
         <Button title="Calculate" onPress={handleSubmit} />
 
-        {results && (
+        {/* {results && (
           <View style={styles.results}>
             <Text style={styles.resultHeader}>Results:</Text>
             <Text>Bore Diameter: {results.boreDiameter} inches</Text>
@@ -295,7 +309,7 @@ const DrillingFluidCalculator = ({ navigation }) => {
               ))}
             </View>
           </View>
-        )}
+        )} */}
       </View>
     </KeyboardAwareScrollView>
   );

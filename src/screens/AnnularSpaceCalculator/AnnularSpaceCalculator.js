@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -56,12 +56,40 @@ const AnnularSpaceCalculator = ({ navigation }) => {
       annularVolumeCubicFt = annularVolume / 7.48;
     }
 
+    // setResults(
+    //   {
+    //     annularVolumeCubicMeter,
+    //     annularVolumeGallons,
+    //     annularVolumeCubicFt,
+    //   },
+    //   () => {
+    //     navigation.navigate("Results", {
+    //       results: results,
+    //       type: "AnnularSpaceCalculator",
+    //     });
+    //   }
+    // );
+
     setResults({
       annularVolumeCubicMeter,
       annularVolumeGallons,
       annularVolumeCubicFt,
     });
+    // navigation.navigate("Results", {
+    //   results: results,
+    //   type: "AnnularSpaceCalculator",
+    // });
   };
+
+  useEffect(() => {
+    // This effect will run after the component renders
+    if (results) {
+      navigation.navigate("Results", {
+        results: results,
+        type: "AnnularSpaceCalculator",
+      });
+    }
+  }, [results, navigation]);
 
   return (
     <KeyboardAwareScrollView
@@ -104,6 +132,14 @@ const AnnularSpaceCalculator = ({ navigation }) => {
           onChangeText={setCasingDiameter}
           keyboardType="numeric"
         />
+
+        <Text style={styles.textStyle}>
+          For GEOTHERMAL LOOPS use the following as casing diameters:
+        </Text>
+        <Text style={styles.textStyle}>3/4" Loop = 1.5"</Text>
+        <Text style={styles.textStyle}>1" Loop = 2.0"</Text>
+        <Text style={styles.textStyle}>1-1/4 "Loop = 2.3"</Text>
+
         <Picker
           style={styles.input}
           selectedValue={casingDiameterType}
@@ -129,7 +165,7 @@ const AnnularSpaceCalculator = ({ navigation }) => {
         </Picker>
         <Button title="Calculate" onPress={handleSubmit} />
 
-        {results && (
+        {/* {results && (
           <View style={styles.results}>
             <Text style={styles.resultHeader}>Results:</Text>
             {diameterType === "centimeter" ? (
@@ -212,7 +248,7 @@ const AnnularSpaceCalculator = ({ navigation }) => {
               bags
             </Text>
           </View>
-        )}
+        )} */}
       </View>
     </KeyboardAwareScrollView>
   );
@@ -222,6 +258,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // padding: 20,
+  },
+  textStyle: {
+    color: "black",
+    margin: 2,
   },
   contentContainer: {
     paddingLeft: 20,
@@ -239,6 +279,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     padding: 10,
     borderRadius: 20,
+    color: "black",
   },
   results: {
     marginTop: 20,

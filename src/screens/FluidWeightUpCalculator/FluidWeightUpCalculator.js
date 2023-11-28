@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Header } from "../../components/Header";
@@ -50,7 +50,22 @@ const FluidWeightUpCalculator = ({ navigation }) => {
         (existingMudType === "lbs gal" ? " lbs" : " kgs"),
       volIncPer100: Math.round(volIncPer100) + " bbls",
     });
+
+    // navigation.navigate("Results", {
+    //   results: results,
+    //   type: "FluidWeightUpCalculator",
+    // });
   };
+
+  useEffect(() => {
+    // This effect will run after the component renders
+    if (results) {
+      navigation.navigate("Results", {
+        results: results,
+        type: "FluidWeightUpCalculator",
+      });
+    }
+  }, [results, navigation]);
 
   return (
     <KeyboardAwareScrollView
@@ -112,7 +127,7 @@ const FluidWeightUpCalculator = ({ navigation }) => {
 
         <Button title="Calculate" onPress={calculateResults} />
 
-        {results && (
+        {/* {results && (
           <View>
             <Text style={styles.resultStyle}>Results</Text>
             <View>
@@ -126,7 +141,7 @@ const FluidWeightUpCalculator = ({ navigation }) => {
               </Text>
             </View>
           </View>
-        )}
+        )} */}
       </View>
     </KeyboardAwareScrollView>
   );
