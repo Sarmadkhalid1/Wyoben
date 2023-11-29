@@ -1,33 +1,19 @@
-import React, {
-  memo,
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-  useState,
-} from "react";
+import React, { memo, useState } from "react";
 import {
   FlatList,
   Image,
+  StatusBar,
   Text,
   TouchableOpacity,
   View,
-  StatusBar,
 } from "react-native";
 import FastImage from "react-native-fast-image";
-import {
-  useTheme,
-  useTranslations,
-  TouchableIcon,
-  DopebaseContext,
-} from "../../core/dopebase";
-import dynamicStyles from "../home/styles";
+import { colors, icons, images, screenHeight, screenWidth } from "../../assets";
+import { Header } from "../../components/Header";
+import { useTheme, useTranslations } from "../../core/dopebase";
 import { useCurrentUser } from "../../core/onboarding";
 import { useAuth } from "../../core/onboarding/hooks/useAuth";
-import { colors, icons, images, screenHeight, screenWidth } from "../../assets";
-import Right from "react-native-vector-icons/FontAwesome";
-import { Header } from "../../components/Header";
-
-// import home_show_case from '../../assets'
+import dynamicStyles from "../home/styles";
 
 const HVC = memo((props) => {
   const { navigation } = props;
@@ -50,47 +36,6 @@ const HVC = memo((props) => {
       navigate_to: "AnnularSpaceCalculator",
     },
   ];
-
-  // useLayoutEffect(() => {
-  //   const colorSet = theme.colors[appearance]
-
-  //   navigation.setOptions({
-  //     headerTitle: localized('Home'),
-  //     headerRight: () => (
-  //       <View>
-  //         <TouchableIcon
-  //           imageStyle={{ tintColor: colorSet.primaryForeground }}
-  //           iconSource={theme.icons.logout}
-  //           onPress={onLogout}
-  //         />
-  //       </View>
-  //     ),
-  //     headerStyle: {
-  //       backgroundColor: colorSet.primaryBackground,
-  //       borderBottomColor: colorSet.hairline,
-  //     },
-  //     headerTintColor: colorSet.primaryText,
-  //   })
-  // }, [])
-
-  // useEffect(() => {
-  //   if (!currentUser?.id) {
-  //     return
-  //   }
-  // }, [currentUser?.id])
-
-  // const onLogout = useCallback(() => {
-  //   console.log('logout pressed')
-  //   authManager?.logout(currentUser)
-  //   navigation.reset({
-  //     index: 0,
-  //     routes: [
-  //       {
-  //         name: 'LoadScreen',
-  //       },
-  //     ],
-  //   })
-  // }, [currentUser])
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -128,9 +73,9 @@ const HVC = memo((props) => {
           height={(screenHeight * 100) / 1000}
           width={screenWidth}
           paddingHorizontal={screenWidth * 0.02}
-          showRightIcon={true}
+          // showRightIcon={true}
           leftIconSource={icons.back}
-          rightIconSource={icons.info}
+          // rightIconSource={icons.info}
           onBackPress={() => navigation.goBack()}
           tintColor={"#030104"}
         />

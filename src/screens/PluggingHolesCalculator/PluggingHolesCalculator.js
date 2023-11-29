@@ -50,10 +50,6 @@ const PluggingHolesCalculator = ({ navigation }) => {
       holeVolumeGal: Math.round(holeVolumeGal * 100) / 100,
       holeVolumeCubicFt: Math.round(holeVolumeCubicFt * 100) / 100,
     });
-    // navigation.navigate("Results", {
-    //   results: results,
-    //   type: "PluggingHolesCalculator",
-    // });
   };
 
   useEffect(() => {
@@ -77,9 +73,7 @@ const PluggingHolesCalculator = ({ navigation }) => {
         height={(screenHeight * 100) / 1000}
         width={screenWidth}
         paddingHorizontal={screenWidth * 0.02}
-        showRightIcon={true}
         leftIconSource={icons.back}
-        rightIconSource={icons.info}
         onBackPress={() => navigation.goBack()}
         tintColor={"#030104"}
       />

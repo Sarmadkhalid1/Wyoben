@@ -83,63 +83,10 @@ const AnnularVelocityCalculator = memo((props) => {
           height={(screenHeight * 100) / 1000}
           width={screenWidth}
           paddingHorizontal={screenWidth * 0.02}
-          showRightIcon={true}
           leftIconSource={icons.back}
-          rightIconSource={icons.info}
           onBackPress={() => navigation.goBack()}
           tintColor={"#030104"}
         />
-
-        {/* <Text style={styles.screen_title}>{`calculate with`}</Text> */}
-
-        {/* <View
-          style={[
-            styles.calculate_filter,
-            {
-              alignItems: 'center',
-              paddingVertical: screenHeight * 0.017,
-              backgroundColor: '#E0E0E0',
-            },
-          ]}>
-          <TouchableOpacity
-            onPress={() => setFilterType('Metric')}
-            style={[
-              styles.sub_view1,
-              {
-                alignItems: 'center',
-                backgroundColor:
-                  filterType === 'Metric' ? '#008C00' : '#E0E0E0',
-              },
-            ]}>
-            <Text
-              style={{
-                color: filterType === 'Metric' ? '#FFFFFF' : '#666666',
-                fontSize: (screenHeight * 15) / 1000,
-                fontWeight: '500',
-              }}>
-              Metric
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setFilterType('Imperial')}
-            style={[
-              styles.sub_view2,
-              {
-                alignItems: 'center',
-                backgroundColor:
-                  filterType === 'Imperial' ? '#008C00' : '#E0E0E0',
-              },
-            ]}>
-            <Text
-              style={{
-                color: filterType === 'Imperial' ? '#FFFFFF' : '#666666',
-                fontSize: (screenHeight * 15) / 1000,
-                fontWeight: '500',
-              }}>
-              Imperial
-            </Text>
-          </TouchableOpacity>
-        </View> */}
 
         <FlatList
           style={{ marginTop: (screenHeight * 100) / 1000 }}

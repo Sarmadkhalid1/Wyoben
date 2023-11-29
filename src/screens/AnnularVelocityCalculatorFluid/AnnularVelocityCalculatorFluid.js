@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { colors, icons, screenHeight, screenWidth } from "../../assets";
@@ -9,7 +10,7 @@ const AnnularVelocityCalculatorFluid = ({ navigation }) => {
   const [gpm, setGPM] = useState("");
   const [holeDiameter, setHoleDiameter] = useState("");
   const [drillPipeDiameter, setDrillPipeDiameter] = useState("");
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState();
 
   const handleSubmit = () => {
     const cubic = parseFloat(gpm);
@@ -25,21 +26,23 @@ const AnnularVelocityCalculatorFluid = ({ navigation }) => {
     const calculatedResult = divideBy > 0 ? cubic * (24.52 / divideBy) : 0;
 
     setResult(calculatedResult);
-    navigation.navigate("Results", {
-      results: result,
-      type: "AnnularVelocityCalculatorFluid",
-    });
   };
 
   useEffect(() => {
     // This effect will run after the component renders
-    if (result) {
+    if (result !== undefined && result !== null) {
       navigation.navigate("Results", {
         results: result,
         type: "AnnularVelocityCalculatorFluid",
       });
     }
   }, [result, navigation]);
+
+  useFocusEffect(
+    useCallback(() => {
+      setResult(null);
+    }, [])
+  );
 
   return (
     <KeyboardAwareScrollView
@@ -51,9 +54,7 @@ const AnnularVelocityCalculatorFluid = ({ navigation }) => {
         height={(screenHeight * 100) / 1000}
         width={screenWidth}
         paddingHorizontal={screenWidth * 0.02}
-        showRightIcon={true}
         leftIconSource={icons.back}
-        rightIconSource={icons.info}
         onBackPress={() => navigation.goBack()}
         tintColor={"#030104"}
       />

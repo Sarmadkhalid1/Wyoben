@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { icons, screenHeight, screenWidth } from "../../assets";
 import { Header } from "../../components/Header";
 import { colors } from "../../assets";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Button from "../../components/Button";
+import { useFocusEffect } from "@react-navigation/native";
 
 const AnnularVelocityCalculatorAir = ({ navigation }) => {
   const [compressorOutput, setCompressorOutput] = useState("");
@@ -26,10 +27,6 @@ const AnnularVelocityCalculatorAir = ({ navigation }) => {
       cubic * (183.4 / (Math.pow(diameter, 2) - Math.pow(drill, 2)));
 
     setResult(calculatedResult);
-    // navigation.navigate("Results", {
-    //   results: result,
-    //   type: "AnnularVelocityCalculatorAir",
-    // });
   };
 
   useEffect(() => {
@@ -42,6 +39,12 @@ const AnnularVelocityCalculatorAir = ({ navigation }) => {
     }
   }, [result, navigation]);
 
+  useFocusEffect(
+    useCallback(() => {
+      setResult(null);
+    }, [])
+  );
+
   return (
     <KeyboardAwareScrollView
       showsVerticalScrollIndicator={false}
@@ -52,9 +55,7 @@ const AnnularVelocityCalculatorAir = ({ navigation }) => {
         height={(screenHeight * 100) / 1000}
         width={screenWidth}
         paddingHorizontal={screenWidth * 0.02}
-        showRightIcon={true}
         leftIconSource={icons.back}
-        rightIconSource={icons.info}
         onBackPress={() => navigation.goBack()}
         tintColor={"#030104"}
       />

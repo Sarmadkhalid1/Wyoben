@@ -219,10 +219,6 @@ const DrillingFluidCalculator = ({ navigation }) => {
       recPumpVol: Math.round(recPumpVol),
       makeupResults,
     });
-    // navigation.navigate("Results", {
-    //   results: results,
-    //   type: "DrillingFluidCalculator",
-    // });
   };
 
   useEffect(() => {
@@ -245,9 +241,7 @@ const DrillingFluidCalculator = ({ navigation }) => {
         height={(screenHeight * 100) / 1000}
         width={screenWidth}
         paddingHorizontal={screenWidth * 0.02}
-        showRightIcon={true}
         leftIconSource={icons.back}
-        rightIconSource={icons.info}
         onBackPress={() => navigation.goBack()}
         tintColor={"#030104"}
       />

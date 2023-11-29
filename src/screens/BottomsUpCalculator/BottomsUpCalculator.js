@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Header } from "../../components/Header";
@@ -6,6 +6,7 @@ import { colors, icons, screenHeight, screenWidth } from "../../assets";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { DopebaseContext } from "../../core/dopebase";
 import Button from "../../components/Button";
+import { useFocusEffect } from "@react-navigation/native";
 
 const BottomsUpCalculator = ({ navigation }) => {
   const context = useContext(DopebaseContext);
@@ -48,11 +49,6 @@ const BottomsUpCalculator = ({ navigation }) => {
     }
 
     setResults(result.toFixed(2));
-
-    // navigation.navigate("Results", {
-    //   results: results,
-    //   type: "BottomsUpCalculator",
-    // });
   };
 
   useEffect(() => {
@@ -65,6 +61,12 @@ const BottomsUpCalculator = ({ navigation }) => {
     }
   }, [results, navigation]);
 
+  useFocusEffect(
+    useCallback(() => {
+      setResults(null);
+    }, [])
+  );
+
   return (
     <KeyboardAwareScrollView
       showsVerticalScrollIndicator={false}
@@ -75,9 +77,7 @@ const BottomsUpCalculator = ({ navigation }) => {
         height={(screenHeight * 100) / 1000}
         width={screenWidth}
         paddingHorizontal={screenWidth * 0.02}
-        showRightIcon={true}
         leftIconSource={icons.back}
-        rightIconSource={icons.info}
         onBackPress={() => navigation.goBack()}
         tintColor={"#030104"}
       />
